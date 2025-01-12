@@ -1,5 +1,6 @@
 package computer.heather.simpleconfig.types;
 
+import computer.heather.simpleconfig.managers.IConfigManager;
 import computer.heather.simpleconfig.validation.ValidationResult;
 
 
@@ -8,6 +9,19 @@ import computer.heather.simpleconfig.validation.ValidationResult;
  */
 public abstract class BaseConfigType<T> {
 
+    /**
+     * The config key used for the option in question.
+     */
+    public final String key;
+    /**
+     * The {@link IConfigManager} the option is registered to.
+     */
+    public final IConfigManager manager;
+
+    protected BaseConfigType(String keyIn, IConfigManager managerIn) {
+        this.key = keyIn;
+        this.manager = managerIn;
+    }
 
     /**
      * @param in the input string from the config file.
