@@ -44,4 +44,10 @@ public abstract class BaseConfigType<T> {
      */
     public abstract String save();
 
+    /**
+     * @return the key for this config entry.
+     */
+    public String getKey() {
+        return key;
+    }
 }
