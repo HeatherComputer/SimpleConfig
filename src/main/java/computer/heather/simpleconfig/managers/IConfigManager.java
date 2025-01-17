@@ -27,11 +27,11 @@ public interface IConfigManager {
     public IConfigManager setConfigLocation(Path location);
 
     /**
-     * A helper method for {@link #load(BiConsumer)}, so you don't need to provide <code>null</code> manually. <br>
+     * A helper method for {@link #load(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
      * See its description for more info.
      */
     public default void load() throws FileNotFoundException, BaseValidationException {
-        load(null);
+        load((configType, value) -> {});
     }
 
     /**
@@ -43,7 +43,7 @@ public interface IConfigManager {
      * @throws FileNotFoundException if the file doesn't exist to load from.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void load(@Nullable BiConsumer<BaseConfigType<?>, String> errorHandler) throws FileNotFoundException, BaseValidationException;
+    public void load(BiConsumer<BaseConfigType<?>, String> errorHandler) throws FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
@@ -52,11 +52,11 @@ public interface IConfigManager {
     public void save() throws AccessDeniedException;
 
     /**
-     * A helper method for {@link #loadOrCreate(BiConsumer)}, so you don't need to provide <code>null</code> manually. <br>
+     * A helper method for {@link #loadOrCreate(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
      * See its description for more info.
      */
     public default void loadOrCreate() throws AccessDeniedException, BaseValidationException {
-        loadOrCreate(null);
+        loadOrCreate((configType, value) -> {});
     }
 
     /**
@@ -68,6 +68,6 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void loadOrCreate(@Nullable BiConsumer<BaseConfigType<?>, String> errorHandler) throws AccessDeniedException, BaseValidationException;
+    public void loadOrCreate(BiConsumer<BaseConfigType<?>, String> errorHandler) throws AccessDeniedException, BaseValidationException;
 
 }
