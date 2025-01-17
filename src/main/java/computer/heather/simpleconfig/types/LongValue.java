@@ -2,6 +2,7 @@ package computer.heather.simpleconfig.types;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
+import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
 import computer.heather.simpleconfig.managers.IConfigManager;
 
@@ -25,7 +26,8 @@ public class LongValue extends BaseConfigType<Long> {
     }
 
     @Override
-    public void validate(String in) throws BaseValidationException {            
+    public void validate(String in) throws BaseValidationException {       
+        if (in.isEmpty()) throw new MissingValueException(this.key);     
         long i;
         try {
             i = Long.parseLong(in);
