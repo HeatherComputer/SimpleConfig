@@ -10,12 +10,14 @@ import computer.heather.simpleconfig.types.BaseConfigType;
 public interface IConfigManager {
     
     /**
+     * Register a config option to the given manager.
      * @param entry the config entry to register.
      * @return the manager being referred to. Allows for chaining.
      */
     public IConfigManager register(BaseConfigType<?> entry);
 
     /**
+     * Set the file used by the config manager.
      * @param location the location of the config file on disk. Absolute or relative.
      * @return the manager being referred to. Allows for chaining.
      */
