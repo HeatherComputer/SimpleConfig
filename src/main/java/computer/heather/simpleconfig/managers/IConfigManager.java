@@ -1,6 +1,7 @@
 package computer.heather.simpleconfig.managers;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.function.BiConsumer;
@@ -30,7 +31,7 @@ public interface IConfigManager {
      * A helper method for {@link #load(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
      * See its description for more info.
      */
-    public default void load() throws FileNotFoundException, BaseValidationException {
+    public default void load() throws IOException, FileNotFoundException, BaseValidationException {
         load((configType, value) -> {});
     }
 
@@ -42,8 +43,9 @@ public interface IConfigManager {
      *     The provided string is the config value that failed to load.
      * @throws FileNotFoundException if the file doesn't exist to load from.
      * @throws BaseValidationException if a config option failed to verify when loading.
+     * @throws IOException 
      */
-    public void load(BiConsumer<BaseConfigType<?>, String> errorHandler) throws FileNotFoundException, BaseValidationException;
+    public void load(BiConsumer<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
@@ -55,7 +57,7 @@ public interface IConfigManager {
      * A helper method for {@link #loadOrCreate(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
      * See its description for more info.
      */
-    public default void loadOrCreate() throws AccessDeniedException, BaseValidationException {
+    public default void loadOrCreate() throws IOException, AccessDeniedException, BaseValidationException {
         loadOrCreate((configType, value) -> {});
     }
 
@@ -68,6 +70,6 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void loadOrCreate(BiConsumer<BaseConfigType<?>, String> errorHandler) throws AccessDeniedException, BaseValidationException;
+    public void loadOrCreate(BiConsumer<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException;
 
 }
