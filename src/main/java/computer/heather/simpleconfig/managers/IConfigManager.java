@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 
+import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.types.BaseConfigType;
 
 public interface IConfigManager {
@@ -23,14 +24,22 @@ public interface IConfigManager {
     /**
      * Attempt to load the config and throw if it can't be done.
      * @throws FileNotFoundException if the file doesn't exist to load from.
+     * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void load() throws FileNotFoundException;
+    public void load() throws FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      */
     public void save() throws AccessDeniedException;
+
+    /**
+     * Attempts to load the config. If none exists, 
+     * @throws AccessDeniedException if for some reason the file can't be written to disk.
+     * @throws BaseValidationException if a config option failed to verify when loading.
+     */
+    public void loadOrCreate() throws AccessDeniedException;
 
 
 }
