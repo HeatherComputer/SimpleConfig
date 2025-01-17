@@ -25,7 +25,7 @@ public abstract class BaseConfigType<T> {
 
     /**
      * @param in the input string from the config file.
-     * @return a {@link ValidationResult} showing if the input is valid.
+     * @throws BaseValidationException if the provided value fails to validate.
      */
     public abstract void validate(String in) throws BaseValidationException;
 

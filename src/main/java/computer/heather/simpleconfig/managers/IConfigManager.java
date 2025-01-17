@@ -16,7 +16,7 @@ public interface IConfigManager {
     public IConfigManager register(BaseConfigType<?> entry);
 
     /**
-     * @param entry the config entry to register.
+     * @param location the location of the config file on disk. Absolute or relative.
      * @return the manager being referred to. Allows for chaining.
      */
     public IConfigManager setConfigLocation(Path location);
@@ -39,7 +39,7 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void loadOrCreate() throws AccessDeniedException;
+    public void loadOrCreate() throws AccessDeniedException, BaseValidationException;
 
 
 }
