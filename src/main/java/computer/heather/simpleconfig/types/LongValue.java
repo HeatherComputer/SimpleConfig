@@ -1,7 +1,9 @@
 package computer.heather.simpleconfig.types;
 
+import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
+import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
+import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
 import computer.heather.simpleconfig.managers.IConfigManager;
-import computer.heather.simpleconfig.validation.ValidationResult;
 
 
 /**
@@ -12,26 +14,28 @@ public class LongValue extends BaseConfigType<Long> {
     private long value;
     private long min;
     private long max;
+    private String range;
 
     public LongValue(String key, long defaultValue, long min, long max, IConfigManager manager) {
         super(key, manager);
         this.value = defaultValue;
         this.min = min;
         this.max = max;
+        this.range = min + "-" + max;  
     }
 
     @Override
-    public ValidationResult validate(String in) {            
+    public void validate(String in) throws BaseValidationException {            
         long i;
         try {
             i = Long.parseLong(in);
         } catch (NumberFormatException e) {
-            return ValidationResult.INCORRECT_FORMAT;
+            throw new InvalidTypeException("int", in);
         }
 
-        if (i < min || i > max) return ValidationResult.OUT_OF_RANGE;
+        if (i < min || i > max) throw new OutOfRangeException(range, in);
 
-        return ValidationResult.VALID;
+        return;
     }
 
     @Override

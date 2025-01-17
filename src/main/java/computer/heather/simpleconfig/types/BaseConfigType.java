@@ -1,7 +1,7 @@
 package computer.heather.simpleconfig.types;
 
+import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.managers.IConfigManager;
-import computer.heather.simpleconfig.validation.ValidationResult;
 
 
 /**
@@ -27,7 +27,7 @@ public abstract class BaseConfigType<T> {
      * @param in the input string from the config file.
      * @return a {@link ValidationResult} showing if the input is valid.
      */
-    public abstract ValidationResult validate(String in);
+    public abstract void validate(String in) throws BaseValidationException;
 
     /**
      * @return the value of this type's loaded config option.
