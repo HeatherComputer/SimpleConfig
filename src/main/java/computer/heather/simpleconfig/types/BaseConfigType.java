@@ -21,6 +21,8 @@ public abstract class BaseConfigType<T> {
     protected BaseConfigType(String keyIn, IConfigManager managerIn) {
         this.key = keyIn;
         this.manager = managerIn;
+
+        this.manager.register(this);
     }
 
     /**
