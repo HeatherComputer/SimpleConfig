@@ -4,12 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
-import java.util.function.BiConsumer;
-
-import javax.annotation.Nullable;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.types.BaseConfigType;
+import computer.heather.simpleconfig.util.ValidationErrorHandler;
 
 public interface IConfigManager {
     
@@ -28,11 +26,11 @@ public interface IConfigManager {
     public IConfigManager setConfigLocation(Path location);
 
     /**
-     * A helper method for {@link #load(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
+     * A helper method for {@link #load(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
      */
     public default void load() throws IOException, FileNotFoundException, BaseValidationException {
-        load((configType, value) -> {});
+        load((configType, value) -> {configType.validate(value);});
     }
 
     /**
@@ -45,7 +43,7 @@ public interface IConfigManager {
      * @throws BaseValidationException if a config option failed to verify when loading.
      * @throws IOException 
      */
-    public void load(BiConsumer<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
+    public void load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
@@ -54,11 +52,11 @@ public interface IConfigManager {
     public void save() throws AccessDeniedException;
 
     /**
-     * A helper method for {@link #loadOrCreate(BiConsumer)}, so you don't need to provide an empty {@link BiConsumer} manually. <br>
+     * A helper method for {@link #loadOrCreate(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
      */
     public default void loadOrCreate() throws IOException, AccessDeniedException, BaseValidationException {
-        loadOrCreate((configType, value) -> {});
+        loadOrCreate((configType, value) -> {configType.validate(value);});
     }
 
     /**
@@ -70,6 +68,6 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void loadOrCreate(BiConsumer<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException;
+    public void loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException;
 
 }
