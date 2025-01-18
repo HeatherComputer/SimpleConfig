@@ -73,6 +73,13 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public void loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException;
+    public default void loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException {
+        try {
+            load();
+        } catch (FileNotFoundException e) {
+            save();
+            load();
+        }
+    }
 
 }
