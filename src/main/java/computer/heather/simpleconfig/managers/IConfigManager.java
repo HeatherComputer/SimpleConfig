@@ -39,7 +39,7 @@ public interface IConfigManager {
      * @param errorHandler 
      *     an optional error handler. Either handle the error or throw {@link BaseValidationException}. <br>
      *     The provided {@link BaseConfigType} is the one that produced the error, you can call its validate method to recreate that error for yourself. <br>
-     *     The provided string is the config value that failed to load. <brr>
+     *     The provided string is the config value that failed to load. <br>
      *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers.
      * @throws FileNotFoundException if the file doesn't exist to load from.
@@ -67,7 +67,7 @@ public interface IConfigManager {
      * @param errorHandler 
      *     an optional error handler. Either handle the error or throw {@link BaseValidationException}. <br>
      *     The provided {@link BaseConfigType} is the one that produced the error, you can call its validate method to recreate that error for yourself. <br>
-     *     The provided string is the config value that failed to load. <brr>
+     *     The provided string is the config value that failed to load. <br>
      *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers.
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
