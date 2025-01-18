@@ -17,9 +17,11 @@ import java.nio.file.Path;
 
 class PreMadePropertiesTests {
 
+    /**
+     * A temporary directory we can use for our tests.
+     */
     @TempDir
     static Path tempDir;
- 
 
     /**
      * First, we test that attempting to load from a nonexistent file errors.
