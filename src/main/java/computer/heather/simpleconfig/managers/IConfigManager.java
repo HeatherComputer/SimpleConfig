@@ -50,15 +50,15 @@ public interface IConfigManager {
 
     /**
      * Save the config.
-     * @throws AccessDeniedException if for some reason the file can't be written to disk.
+     * @throws IOException if for some reason the file can't be written to disk.
      */
-    public void save() throws AccessDeniedException;
+    public void save() throws IOException;
 
     /**
      * A helper method for {@link #loadOrCreate(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
      */
-    public default void loadOrCreate() throws IOException, AccessDeniedException, BaseValidationException {
+    public default void loadOrCreate() throws IOException, BaseValidationException {
         loadOrCreate((configType, value) -> {configType.validate(value);});
     }
 
