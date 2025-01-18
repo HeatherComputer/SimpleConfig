@@ -7,6 +7,7 @@ import java.nio.file.Path;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.types.BaseConfigType;
+import computer.heather.simpleconfig.types.FakeConfigType;
 import computer.heather.simpleconfig.util.ValidationErrorHandler;
 
 public interface IConfigManager {
@@ -39,7 +40,7 @@ public interface IConfigManager {
      *     an optional error handler. Either handle the error or throw {@link BaseValidationException}. <br>
      *     The provided {@link BaseConfigType} is the one that produced the error, you can call its validate method to recreate that error for yourself. <br>
      *     The provided string is the config value that failed to load. <brr>
-     *     Your error handler should handle the {@link BaseConfigType} being null! This is to allow for "migration" code: <br>
+     *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers.
      * @throws FileNotFoundException if the file doesn't exist to load from.
      * @throws BaseValidationException if a config option failed to verify when loading.
@@ -67,7 +68,7 @@ public interface IConfigManager {
      *     an optional error handler. Either handle the error or throw {@link BaseValidationException}. <br>
      *     The provided {@link BaseConfigType} is the one that produced the error, you can call its validate method to recreate that error for yourself. <br>
      *     The provided string is the config value that failed to load. <brr>
-     *     Your error handler should handle the {@link BaseConfigType} being null! This is to allow for "migration" code: <br>
+     *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers.
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.

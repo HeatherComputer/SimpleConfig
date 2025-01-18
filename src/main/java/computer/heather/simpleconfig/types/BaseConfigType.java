@@ -22,7 +22,8 @@ public abstract class BaseConfigType<T> {
         this.key = keyIn;
         this.manager = managerIn;
 
-        this.manager.register(this);
+        //Safety check
+        if (this.manager != null) this.manager.register(this);
     }
 
     /**
