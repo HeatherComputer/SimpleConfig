@@ -27,7 +27,7 @@ public class LongValue extends BaseConfigType<Long> {
 
     @Override
     public void validate(String in) throws BaseValidationException {       
-        if (in.isEmpty()) throw new MissingValueException(this.key);     
+        if (in == null) throw new MissingValueException(this.key);     
         long i;
         try {
             i = Long.parseLong(in);
