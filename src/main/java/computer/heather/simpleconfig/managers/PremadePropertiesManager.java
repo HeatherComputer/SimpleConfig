@@ -1,14 +1,22 @@
 package computer.heather.simpleconfig.managers;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.types.BaseConfigType;
@@ -103,18 +111,31 @@ public class PremadePropertiesManager implements IConfigManager {
     }
 
     @Override
-    public void save() throws AccessDeniedException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    public void save() throws IOException {
+        File file = configLocation.toFile();
+
+        //Creates the file if it doesn't exist.
+        file.createNewFile();
+        file.setWritable(true);
+
+        String premadeText;
+        //Read the premade properties file.
+        InputStream is = PremadePropertiesManager.class.getClassLoader().getResourceAsStream(premadeLocation);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        premadeText = reader.lines().collect(Collectors.joining("\n"));
+        reader.close();
+
+        //Save each existing config value to the loaded premade text.
+        for (String key : entries.keySet()) {
+            Matcher matcher = Pattern.compile(Pattern.quote(key) + "$", Pattern.MULTILINE).matcher(premadeText);
+            premadeText = matcher.replaceAll(key + "=" + entries.get(key).save());
+        }
+
+        //Write the file to disk.
+        FileWriter writer = new FileWriter(file);
+        writer.write(premadeText);
+        writer.close();
+
     }
-
-    @Override
-    public void loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler)
-            throws AccessDeniedException, BaseValidationException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'loadOrCreate'");
-    }
-
-
 
 }
