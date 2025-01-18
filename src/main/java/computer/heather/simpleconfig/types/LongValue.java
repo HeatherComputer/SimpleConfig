@@ -32,7 +32,7 @@ public class LongValue extends BaseConfigType<Long> {
         try {
             i = Long.parseLong(in);
         } catch (NumberFormatException e) {
-            throw new InvalidTypeException("int", in);
+            throw new InvalidTypeException("long", in);
         }
 
         if (i < min || i > max) throw new OutOfRangeException(range, in);
