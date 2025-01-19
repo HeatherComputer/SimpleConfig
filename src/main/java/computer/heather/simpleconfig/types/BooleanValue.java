@@ -22,7 +22,7 @@ public class BooleanValue extends BaseConfigType<Boolean> {
     public void validate(String in) throws BaseValidationException {       
         if (in == null) throw new MissingValueException(this.key);     
 
-        if ((!in.toLowerCase().equals("false")) || (!in.toLowerCase().equals("true"))) throw new InvalidTypeException("boolean", in);
+        if ((!in.toLowerCase().equals("false")) && (!in.toLowerCase().equals("true"))) throw new InvalidTypeException("boolean", in);
     }
 
     @Override
