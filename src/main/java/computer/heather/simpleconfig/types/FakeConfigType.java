@@ -1,6 +1,7 @@
 package computer.heather.simpleconfig.types;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
+import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 
 public class FakeConfigType extends BaseConfigType<Object> {
     
@@ -10,7 +11,7 @@ public class FakeConfigType extends BaseConfigType<Object> {
 
     @Override
     public void validate(String in) throws BaseValidationException {
-        throw new UnsupportedOperationException("Unsupported method 'validate'");
+        throw new MissingValueException(this.key);
     }
 
     @Override
