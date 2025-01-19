@@ -5,16 +5,24 @@ package computer.heather.simpleconfig;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.io.TempDir;
 
+import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.managers.IConfigManager;
 import computer.heather.simpleconfig.managers.PremadePropertiesManager;
+import computer.heather.simpleconfig.types.BooleanValue;
+import computer.heather.simpleconfig.types.FloatValue;
+import computer.heather.simpleconfig.types.FreeStringValue;
+import computer.heather.simpleconfig.types.LongValue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
+@TestMethodOrder(OrderAnnotation.class)
 class PreMadePropertiesTests {
 
     /**
@@ -23,14 +31,39 @@ class PreMadePropertiesTests {
     @TempDir
     static Path tempDir;
 
+    //Our test manager.
+    final IConfigManager testManager = new PremadePropertiesManager().setConfigLocation(tempDir.resolve("test.properties"));
+    
+    //Our test config options.
+    BooleanValue testBooleanValue = new BooleanValue("config.boolean.test", false, testManager);
+    FloatValue testFloatValue = new FloatValue("config.float.test", 0F, -1F, 1F, testManager);
+    FreeStringValue testFreeStringValue = new FreeStringValue("config.freestring.test", "Hello World!", testManager);
+    LongValue testLongValue = new LongValue("config.long.test", 0L, -1L, 1L, testManager);
+
     /**
      * First, we test that attempting to load from a nonexistent file errors.
      */
-    @Test 
+    @Test
     @Order(1)
     void loadWithoutFileFails() {
-        IConfigManager testManager = new PremadePropertiesManager().setConfigLocation(tempDir.resolve("test.properties"));
         assertThrows(FileNotFoundException.class, testManager::load);
     }
 
+    /**
+     * Next, let's test that loading a config file with a missing key errors.
+     */
+    @Test 
+    @Order(2)
+    void loadWithMissingKeyFails() {
+
+        //Create and save.
+        assertDoesNotThrow(testManager::save);
+
+        
+        //Our missing value.
+        FreeStringValue missingValue = new FreeStringValue("config.missing.test", "I'm not in the config!", testManager);
+
+        //Now, test this.
+        assertThrows(MissingValueException.class, testManager::load);
+    }
 }
