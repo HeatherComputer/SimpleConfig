@@ -39,13 +39,13 @@ public class PremadePropertiesManager implements IConfigManager {
 
 
     @Override
-    public IConfigManager register(BaseConfigType<?> entry) {
+    public PremadePropertiesManager register(BaseConfigType<?> entry) {
         this.entries.put(entry.getKey(), entry);
         return this;
     }
 
     @Override
-    public IConfigManager setConfigLocation(Path location) {
+    public PremadePropertiesManager setConfigLocation(Path location) {
         this.configLocation = location;
         if (this.premadeLocation == "") {
             this.premadeLocation = this.configLocation.getFileName().toString();
@@ -53,13 +53,13 @@ public class PremadePropertiesManager implements IConfigManager {
         return this;
     }
 
-    public IConfigManager setPremadeLocation(String location) {
+    public PremadePropertiesManager setPremadeLocation(String location) {
         this.premadeLocation = location;
         return this;
     }
 
     @Override
-    public void load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler)
+    public PremadePropertiesManager load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler)
             throws IOException, FileNotFoundException, BaseValidationException {
 
         Properties props = new Properties();
@@ -107,10 +107,12 @@ public class PremadePropertiesManager implements IConfigManager {
         //This ensures anything it did gets saved.
         if (!erroringKeys.isEmpty()) save();
 
+        return this;
+
     }
 
     @Override
-    public void save() throws IOException {
+    public PremadePropertiesManager save() throws IOException {
         File file = configLocation.toFile();
 
         //Creates the file if it doesn't exist.
@@ -134,6 +136,8 @@ public class PremadePropertiesManager implements IConfigManager {
         FileWriter writer = new FileWriter(file);
         writer.write(premadeText);
         writer.close();
+
+        return this;
 
     }
 

@@ -30,8 +30,8 @@ public interface IConfigManager {
      * A helper method for {@link #load(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
      */
-    public default void load() throws IOException, FileNotFoundException, BaseValidationException {
-        load((configType, value) -> {configType.validate(value);});
+    public default IConfigManager load() throws IOException, FileNotFoundException, BaseValidationException {
+        return load((configType, value) -> {configType.validate(value);});
     }
 
     /**
@@ -46,20 +46,21 @@ public interface IConfigManager {
      * @throws BaseValidationException if a config option failed to verify when loading.
      * @throws IOException 
      */
-    public void load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
+    public IConfigManager load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
+     * @return 
      * @throws IOException if for some reason the file can't be written to disk.
      */
-    public void save() throws IOException;
+    public IConfigManager save() throws IOException;
 
     /**
      * A helper method for {@link #loadOrCreate(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
      */
-    public default void loadOrCreate() throws IOException, BaseValidationException {
-        loadOrCreate((configType, value) -> {configType.validate(value);});
+    public default IConfigManager loadOrCreate() throws IOException, BaseValidationException {
+        return loadOrCreate((configType, value) -> {configType.validate(value);});
     }
 
     /**
@@ -73,12 +74,12 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public default void loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException {
+    public default IConfigManager loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException {
         try {
-            load();
+            return load();
         } catch (FileNotFoundException e) {
             save();
-            load();
+            return load();
         }
     }
 
