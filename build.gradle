@@ -34,12 +34,10 @@ java {
     withJavadocJar()
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'simpleconfig.App'
-}
-
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+//For now we'll mark the version as 0.1. Once tests are fully finished and 
+version = 0.1
