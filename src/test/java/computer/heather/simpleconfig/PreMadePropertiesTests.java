@@ -33,7 +33,7 @@ class PreMadePropertiesTests {
     static Path tempDir;
 
     //Our test manager.
-    final IConfigManager testManager = new PremadePropertiesManager().setConfigLocation(tempDir.resolve("test.properties"));
+    final PremadePropertiesManager testManager = new PremadePropertiesManager().setConfigLocation(tempDir.resolve("unused"));
     
     //Our test config options.
     BooleanValue testBooleanValue = new BooleanValue("config.boolean.test", false, testManager);
@@ -51,20 +51,21 @@ class PreMadePropertiesTests {
     }
 
     /**
-     * Next, let's test that loading a config file with a missing key errors.
+     * Next, let's test that loading a config file with a missing key errors, and that an error handler safetly ignores it.
      */
     @Test 
     @Order(2)
-    void loadWithMissingKeyFails() {
+    void testMissingKey() {
 
         //Create and save.
+        testManager.setConfigLocation(tempDir.resolve("test-missingvalue.properties"))
+                   .setPremadeLocation("test-missingvalue.properties");
         assertDoesNotThrow(testManager::save);
-
-        
-        //Our missing value.
-        FreeStringValue missingValue = new FreeStringValue("config.missing.test", "I'm not in the config!", testManager);
 
         //Now, test this.
         assertThrows(MissingValueException.class, testManager::load);
+
+        //Now we give it an error handler that does nothing. This shouldn't throw at all.
+        assertDoesNotThrow(() -> testManager.load((type, string, e) -> {assertInstanceOf(MissingValueException.class, e);}));
     }
 }
