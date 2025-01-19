@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
+@SuppressWarnings("unused")
 @TestMethodOrder(OrderAnnotation.class)
 class PreMadePropertiesTests {
 
