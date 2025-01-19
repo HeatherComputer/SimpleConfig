@@ -1,12 +1,10 @@
 package computer.heather.simpleconfig.util;
 
-import java.util.function.BiConsumer;
-
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 
 /**
- * A functional interface that replicates a {@link BiConsumer}, but can throw {@link BaseValidationException}.
+ * A functional interface that takes three inputs and can throw {@link BaseValidationException}.
  */
-public interface ValidationErrorHandler<T, U> {
-    void accept(T t, U u) throws BaseValidationException;
+public interface ValidationErrorHandler<T, U, V> {
+    void accept(T t, U u, V v) throws BaseValidationException;
 }

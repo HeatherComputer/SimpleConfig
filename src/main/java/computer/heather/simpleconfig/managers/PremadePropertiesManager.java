@@ -59,7 +59,7 @@ public class PremadePropertiesManager implements IConfigManager {
     }
 
     @Override
-    public PremadePropertiesManager load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler)
+    public PremadePropertiesManager load(ValidationErrorHandler<BaseConfigType<?>, String, BaseValidationException> errorHandler)
             throws IOException, FileNotFoundException, BaseValidationException {
 
         Properties props = new Properties();
@@ -75,7 +75,7 @@ public class PremadePropertiesManager implements IConfigManager {
             try {
                 entries.get(key).validate(props.getProperty(key));
             } catch (BaseValidationException e) {
-                errorHandler.accept(entries.get(key), props.getProperty(key));
+                errorHandler.accept(entries.get(key), props.getProperty(key), e);
                 //At this point, the error handler would've "handled" the error.
                 //Add it to our erroringKeys arraylist so we know to skip loading - thus keeping the config option at default or whatever the errorhandler specifies.
                 erroringKeys.add(key);
@@ -90,7 +90,12 @@ public class PremadePropertiesManager implements IConfigManager {
             String key = (String) keyOjb;
             if (entries.containsKey(key)) continue;
             //Create a fake config entry just as it allows the error handler to access the detected key and migrate accordingly.
-            errorHandler.accept(new FakeConfigType(key), props.getProperty(key));
+            FakeConfigType type = new FakeConfigType(key);
+            try {
+                type.validate("");
+            } catch (BaseValidationException e) {
+                errorHandler.accept(type, props.getProperty(key), e);
+            }
             //Add it to our erroringKeys arraylist just to indicate that we've ran the errorhandler.
             erroringKeys.add(key);
         }

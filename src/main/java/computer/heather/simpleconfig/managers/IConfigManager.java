@@ -31,7 +31,7 @@ public interface IConfigManager {
      * See its description for more info.
      */
     public default IConfigManager load() throws IOException, FileNotFoundException, BaseValidationException {
-        return load((configType, value) -> {configType.validate(value);});
+        return load((configType, value, exception) -> {throw exception;});
     }
 
     /**
@@ -46,7 +46,7 @@ public interface IConfigManager {
      * @throws BaseValidationException if a config option failed to verify when loading.
      * @throws IOException 
      */
-    public IConfigManager load(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
+    public IConfigManager load(ValidationErrorHandler<BaseConfigType<?>, String, BaseValidationException> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
@@ -60,7 +60,7 @@ public interface IConfigManager {
      * See its description for more info.
      */
     public default IConfigManager loadOrCreate() throws IOException, BaseValidationException {
-        return loadOrCreate((configType, value) -> {configType.validate(value);});
+        return loadOrCreate((configType, value, exception) -> {throw exception;});
     }
 
     /**
@@ -74,7 +74,7 @@ public interface IConfigManager {
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
-    public default IConfigManager loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String> errorHandler) throws IOException, AccessDeniedException, BaseValidationException {
+    public default IConfigManager loadOrCreate(ValidationErrorHandler<BaseConfigType<?>, String, BaseValidationException> errorHandler) throws IOException, AccessDeniedException, BaseValidationException {
         try {
             return load();
         } catch (FileNotFoundException e) {
