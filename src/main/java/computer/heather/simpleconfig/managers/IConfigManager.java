@@ -20,8 +20,8 @@ public interface IConfigManager {
     public IConfigManager register(BaseConfigType<?> entry);
     
     /**
-     * Register a config option to the given manager.
-     * @param entry the config entry to register.
+     * Register multiple config entries to the manager.
+     * @param entries all entries to register.
      * @return the manager being referred to. Allows for chaining.
      */
     public IConfigManager register(BaseConfigType<?>... entries);
