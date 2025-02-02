@@ -45,6 +45,14 @@ public class PremadePropertiesManager implements IConfigManager {
     }
 
     @Override
+    public PremadePropertiesManager register(BaseConfigType<?>... entries) {
+        for (BaseConfigType<?> baseConfigType : entries) {
+            register(baseConfigType);
+        }
+        return this;
+    }
+
+    @Override
     public PremadePropertiesManager setConfigLocation(Path location) {
         this.configLocation = location;
         if (this.premadeLocation == "") {

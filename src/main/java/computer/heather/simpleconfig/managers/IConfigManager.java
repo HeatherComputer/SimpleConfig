@@ -18,6 +18,13 @@ public interface IConfigManager {
      * @return the manager being referred to. Allows for chaining.
      */
     public IConfigManager register(BaseConfigType<?> entry);
+    
+    /**
+     * Register a config option to the given manager.
+     * @param entry the config entry to register.
+     * @return the manager being referred to. Allows for chaining.
+     */
+    public IConfigManager register(BaseConfigType<?>... entries);
 
     /**
      * Set the file used by the config manager.
