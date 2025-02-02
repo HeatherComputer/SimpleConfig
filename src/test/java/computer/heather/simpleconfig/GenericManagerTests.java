@@ -4,8 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -16,6 +24,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.managers.IConfigManager;
+import computer.heather.simpleconfig.managers.PremadePropertiesManager;
 import computer.heather.simpleconfig.types.BooleanValue;
 import computer.heather.simpleconfig.types.FloatValue;
 import computer.heather.simpleconfig.types.FreeStringValue;
@@ -35,7 +44,7 @@ public abstract class GenericManagerTests {
      * A temporary directory we can use for our tests.
      */
     @TempDir
-    static Path tempDir;
+    Path tempDir;
 
     //I would final this manager, but when we're resetting that'd get in the way.
     /**
@@ -83,7 +92,6 @@ public abstract class GenericManagerTests {
     @Test
     @Order(1)
     void loadWithoutFileFails() {
-        testManager.setConfigLocation(tempDir.resolve("test.properties"));
         assertThrows(FileNotFoundException.class, testManager::load);
     }
 
@@ -96,15 +104,42 @@ public abstract class GenericManagerTests {
     @Order(2)
     void testMissingKey() {
 
-        //Create and save.
-        testManager.setConfigLocation(tempDir.resolve("test-missingvalue.properties"));
-        assertDoesNotThrow(testManager::save);
+        //Create ourselves.
+        assertDoesNotThrow(() -> writeFileForTest("test-missingvalue.properties"));
 
         //Now, test this.
         assertThrows(MissingValueException.class, testManager::load);
 
         //Now we give it an error handler that does nothing. This shouldn't throw at all.
         assertDoesNotThrow(() -> testManager.load((type, string, e) -> {assertInstanceOf(MissingValueException.class, e);}));
+    }
+
+
+
+    /**
+     * We need ways to write files, so a helper method should be nice I'd say.
+     * @throws IOException if this fails, tests can't run, so we just throw any error we get.
+     */
+    void writeFileForTest(String sourceName) throws IOException {
+
+        File file = tempDir.resolve("test.properties").toFile();
+
+        //Creates the file if it doesn't exist.
+        file.createNewFile();
+        file.setWritable(true);
+
+        String premadeText;
+        //Read the premade properties file.
+        InputStream is = PremadePropertiesManager.class.getClassLoader().getResourceAsStream(sourceName);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        premadeText = reader.lines().collect(Collectors.joining("\n"));
+        reader.close();
+
+        //Write the file to disk.
+        FileWriter writer = new FileWriter(file);
+        writer.write(premadeText);
+        writer.close();
+
     }
 
 
