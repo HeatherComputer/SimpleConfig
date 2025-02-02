@@ -1,7 +1,6 @@
 package computer.heather.simpleconfig.types;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -13,17 +12,9 @@ public abstract class BaseConfigType<T> {
      * The config key used for the option in question.
      */
     public final String key;
-    /**
-     * The {@link IConfigManager} the option is registered to.
-     */
-    public final IConfigManager manager;
 
-    protected BaseConfigType(String keyIn, IConfigManager managerIn) {
+    protected BaseConfigType(String keyIn) {
         this.key = keyIn;
-        this.manager = managerIn;
-
-        //Safety check
-        if (this.manager != null) this.manager.register(this);
     }
 
     /**

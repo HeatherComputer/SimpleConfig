@@ -6,7 +6,7 @@ import computer.heather.simpleconfig.exceptions.validation.MissingOptionExceptio
 public class FakeConfigType extends BaseConfigType<Object> {
     
     public FakeConfigType(String key) {
-        super(key, null);
+        super(key);
     }
 
     @Override

@@ -2,7 +2,6 @@ package computer.heather.simpleconfig.types;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -12,8 +11,8 @@ public class FreeStringValue extends BaseConfigType<String> {
 
     private String value;
 
-    public FreeStringValue(String key, String defaultValue, IConfigManager manager) {
-        super(key, manager);
+    public FreeStringValue(String key, String defaultValue) {
+        super(key);
         this.value = defaultValue;
     }
 

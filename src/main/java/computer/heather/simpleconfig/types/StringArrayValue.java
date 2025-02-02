@@ -4,7 +4,6 @@ import computer.heather.simpleconfig.exceptions.validation.BaseValidationExcepti
 import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -15,8 +14,8 @@ public class StringArrayValue extends BaseConfigType<String[]> {
     private String[] value;
     private String range = "Comma-separated list with at least one entry!";
 
-    public StringArrayValue(String key, String[] defaultValue, IConfigManager manager) {
-        super(key, manager);
+    public StringArrayValue(String key, String[] defaultValue) {
+        super(key);
         this.value = defaultValue;
     }
 

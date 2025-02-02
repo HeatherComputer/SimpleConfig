@@ -6,7 +6,6 @@ import java.util.List;
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -18,8 +17,8 @@ public class ValidatedStringValue extends BaseConfigType<String> {
     private List<String> allowedStrings;
     private String range;
 
-    public ValidatedStringValue(String key, String defaultValue, String[] allowedStrings, IConfigManager manager) {
-        super(key, manager);
+    public ValidatedStringValue(String key, String defaultValue, String[] allowedStrings) {
+        super(key);
         this.value = defaultValue;
         this.allowedStrings = Arrays.asList(allowedStrings);
         this.range = String.join(",", allowedStrings); 

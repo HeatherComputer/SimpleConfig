@@ -3,8 +3,6 @@ package computer.heather.simpleconfig.types;
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
-import computer.heather.simpleconfig.managers.IConfigManager;
-
 
 /**
  * A BooleanValue config type.
@@ -13,8 +11,8 @@ public class BooleanValue extends BaseConfigType<Boolean> {
 
     private boolean value;
 
-    public BooleanValue(String key, boolean defaultValue, IConfigManager manager) {
-        super(key, manager);
+    public BooleanValue(String key, boolean defaultValue) {
+        super(key);
         this.value = defaultValue;
     }
 

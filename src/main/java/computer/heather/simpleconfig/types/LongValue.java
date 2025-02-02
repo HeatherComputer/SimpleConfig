@@ -4,7 +4,6 @@ import computer.heather.simpleconfig.exceptions.validation.BaseValidationExcepti
 import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -17,8 +16,8 @@ public class LongValue extends BaseConfigType<Long> {
     private long max;
     private String range;
 
-    public LongValue(String key, long defaultValue, long min, long max, IConfigManager manager) {
-        super(key, manager);
+    public LongValue(String key, long defaultValue, long min, long max) {
+        super(key);
         this.value = defaultValue;
         this.min = min;
         this.max = max;

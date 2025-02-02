@@ -4,7 +4,6 @@ import computer.heather.simpleconfig.exceptions.validation.BaseValidationExcepti
 import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
-import computer.heather.simpleconfig.managers.IConfigManager;
 
 
 /**
@@ -17,8 +16,8 @@ public class FloatValue extends BaseConfigType<Float> {
     private float max;
     private String range;
 
-    public FloatValue(String key, float defaultValue, float min, float max, IConfigManager manager) {
-        super(key, manager);
+    public FloatValue(String key, float defaultValue, float min, float max) {
+        super(key);
         this.value = defaultValue;
         this.min = min;
         this.max = max;
