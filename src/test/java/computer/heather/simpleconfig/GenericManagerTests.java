@@ -41,6 +41,7 @@ import computer.heather.simpleconfig.types.ValidatedStringValue;
 
 /**
  * Generic test class to be subclassed by manager-specific tests.
+ * Use {@link Order} >25 for tests!
  */
 @TestMethodOrder(OrderAnnotation.class)
 public abstract class GenericManagerTests {
