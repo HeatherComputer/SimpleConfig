@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.io.TempDir;
 
+import computer.heather.simpleconfig.exceptions.validation.MissingOptionException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.managers.IConfigManager;
 import computer.heather.simpleconfig.managers.PremadePropertiesManager;
@@ -102,7 +103,7 @@ public abstract class GenericManagerTests {
      */
     @Test 
     @Order(2)
-    void testMissingKey() {
+    void testMissingValue() {
 
         //Create ourselves.
         assertDoesNotThrow(() -> writeFileForTest("test-missingvalue.properties"));
@@ -112,6 +113,25 @@ public abstract class GenericManagerTests {
 
         //Now we give it an error handler that does nothing. This shouldn't throw at all.
         assertDoesNotThrow(() -> testManager.load((type, string, e) -> {assertInstanceOf(MissingValueException.class, e);}));
+    }
+
+    
+
+    /**
+     * Next, let's test that loading a config file with an extra key errors, and that an error handler safely ignores it.
+     */
+    @Test 
+    @Order(3)
+    void testMissingOption() {
+
+        //Create ourselves.
+        assertDoesNotThrow(() -> writeFileForTest("test-missingoption.properties"));
+
+        //Now, test this.
+        assertThrows(MissingOptionException.class, testManager::load);
+
+        //Now we give it an error handler that does nothing. This shouldn't throw at all.
+        assertDoesNotThrow(() -> testManager.load((type, string, e) -> {assertInstanceOf(MissingOptionException.class, e);}));
     }
 
 
