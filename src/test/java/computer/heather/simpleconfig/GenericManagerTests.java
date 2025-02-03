@@ -1,6 +1,7 @@
 package computer.heather.simpleconfig;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,10 +23,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.io.TempDir;
 
+import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
 import computer.heather.simpleconfig.exceptions.validation.MissingOptionException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
+import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
 import computer.heather.simpleconfig.managers.IConfigManager;
 import computer.heather.simpleconfig.managers.PremadePropertiesManager;
+import computer.heather.simpleconfig.types.BaseConfigType;
 import computer.heather.simpleconfig.types.BooleanValue;
 import computer.heather.simpleconfig.types.FloatValue;
 import computer.heather.simpleconfig.types.FreeStringValue;
@@ -132,9 +136,36 @@ public abstract class GenericManagerTests {
         assertThrows(MissingOptionException.class, testManager::load);
 
         //Now we give it an error handler that does nothing. This shouldn't throw at all.
-        assertDoesNotThrow(() -> testManager.load((type, string, e) -> {assertInstanceOf(MissingOptionException.class, e);}));
+        assertDoesNotThrow(() -> testManager.load((type, key, e) -> {assertInstanceOf(MissingOptionException.class, e);}));
     }
 
+
+    
+    /**
+     * Helper method to test load errors better.
+     * @param sourceFile the source file within resources to use as a config file.
+     * @param expectedKey the key of the config option that should error.
+     * @param expectedError the class of the error expected.
+     * @param expectedConfigType the class of the type that should produce the error.
+     */
+    void testLoadError(String sourceFile, String expectedKey, Class<? extends BaseValidationException> expectedError, Class<? extends BaseConfigType<?>> expectedConfigType) {
+
+        //Create ourselves.
+        assertDoesNotThrow(() -> writeFileForTest(sourceFile));
+
+        //Now this should error.
+        assertThrows(expectedError, testManager::load);
+
+        //Now we give it an error handler that does nothing. This shouldn't throw at all.
+        assertDoesNotThrow(() -> {
+            testManager.load((type, key, e) -> {
+                assertInstanceOf(expectedError, e);
+                assertInstanceOf(expectedConfigType, type);
+                assertEquals(expectedKey, key);
+            });
+        });
+
+    }
 
 
     /**
