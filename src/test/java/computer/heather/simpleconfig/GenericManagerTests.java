@@ -187,6 +187,18 @@ public abstract class GenericManagerTests {
     }
 
 
+
+    /**
+     * StringArrays don't have much to test for.
+     */
+    @Test 
+    @Order(7)
+    void testStringArray() {
+        //Longs need a fair few too. Let's start with an invalid type
+        testLoadError("stringarray/type.properties", "config.stringarray.test", InvalidTypeException.class, StringArrayValue.class);
+    }
+
+
     
     /**
      * Helper method to test load errors better.
