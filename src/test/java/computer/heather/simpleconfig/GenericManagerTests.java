@@ -158,7 +158,7 @@ public abstract class GenericManagerTests {
      * Next, let's test that loading a config file with an invalid boolean option throws.
      */
     @Test 
-    @Order(4)
+    @Order(5)
     void testFloat() {
         //Floats need a fair few more. Let's start with an invalid type
         testLoadError("float/type.properties", "config.float.test", InvalidTypeException.class, FloatValue.class);
