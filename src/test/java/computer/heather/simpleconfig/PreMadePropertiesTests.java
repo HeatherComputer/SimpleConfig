@@ -6,8 +6,7 @@ class PreMadePropertiesTests extends GenericManagerTests{
 
     @Override
     void resetManager() {
-        testManager = new PremadePropertiesManager()
-            .setConfigLocation(tempDir.resolve("test.properties"));
+        testManager = new PremadePropertiesManager();
     }
 
 

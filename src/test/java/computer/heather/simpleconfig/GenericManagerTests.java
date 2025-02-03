@@ -84,6 +84,7 @@ public abstract class GenericManagerTests {
     void reset() {
         resetManager();
         initTestOptions();
+        testManager.setConfigLocation(tempDir.resolve("test.properties"));
     }
 
 
