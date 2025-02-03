@@ -107,7 +107,7 @@ public abstract class GenericManagerTests {
     void testMissingValue() {
 
         //Create ourselves.
-        assertDoesNotThrow(() -> writeFileForTest("test-missingvalue.properties"));
+        assertDoesNotThrow(() -> writeFileForTest("missing/value.properties"));
 
         //Now, test this.
         assertThrows(MissingValueException.class, testManager::load);
@@ -126,7 +126,7 @@ public abstract class GenericManagerTests {
     void testMissingOption() {
 
         //Create ourselves.
-        assertDoesNotThrow(() -> writeFileForTest("test-missingoption.properties"));
+        assertDoesNotThrow(() -> writeFileForTest("missing/option.properties"));
 
         //Now, test this.
         assertThrows(MissingOptionException.class, testManager::load);
