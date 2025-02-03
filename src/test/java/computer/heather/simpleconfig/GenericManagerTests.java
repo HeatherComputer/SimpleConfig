@@ -24,6 +24,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.io.TempDir;
 
 import computer.heather.simpleconfig.exceptions.validation.BaseValidationException;
+import computer.heather.simpleconfig.exceptions.validation.InvalidTypeException;
 import computer.heather.simpleconfig.exceptions.validation.MissingOptionException;
 import computer.heather.simpleconfig.exceptions.validation.MissingValueException;
 import computer.heather.simpleconfig.exceptions.validation.OutOfRangeException;
@@ -139,6 +140,33 @@ public abstract class GenericManagerTests {
         assertDoesNotThrow(() -> testManager.load((type, key, e) -> {assertInstanceOf(MissingOptionException.class, e);}));
     }
 
+    
+
+    /**
+     * Next, let's test that loading a config file with an invalid boolean option throws.
+     */
+    @Test 
+    @Order(4)
+    void testBoolean() {
+        //Only thing we need to test when it's booleans
+        testLoadError("boolean/type.properties", "config.boolean.test", InvalidTypeException.class, BooleanValue.class);
+    }
+
+    
+
+    /**
+     * Next, let's test that loading a config file with an invalid boolean option throws.
+     */
+    @Test 
+    @Order(4)
+    void testFloat() {
+        //Floats need a fair few more. Let's start with an invalid type
+        testLoadError("float/type.properties", "config.float.test", InvalidTypeException.class, FloatValue.class);
+        //And now they need to worry about range. We'll test both high and low
+        testLoadError("float/range_low.properties", "config.float.test", OutOfRangeException.class, FloatValue.class);
+        testLoadError("float/range_high.properties", "config.float.test", OutOfRangeException.class, FloatValue.class);
+    }
+
 
     
     /**
@@ -161,7 +189,7 @@ public abstract class GenericManagerTests {
             testManager.load((type, key, e) -> {
                 assertInstanceOf(expectedError, e);
                 assertInstanceOf(expectedConfigType, type);
-                assertEquals(expectedKey, key);
+                assertEquals(expectedKey, type.key);
             });
         });
 
