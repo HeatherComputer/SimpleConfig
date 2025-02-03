@@ -155,7 +155,7 @@ public abstract class GenericManagerTests {
     
 
     /**
-     * Next, let's test that loading a config file with an invalid boolean option throws.
+     * Next, let's test that loading a config file with an invalid float option throws.
      */
     @Test 
     @Order(5)
@@ -165,6 +165,25 @@ public abstract class GenericManagerTests {
         //And now they need to worry about range. We'll test both high and low
         testLoadError("float/range_low.properties", "config.float.test", OutOfRangeException.class, FloatValue.class);
         testLoadError("float/range_high.properties", "config.float.test", OutOfRangeException.class, FloatValue.class);
+    }
+
+
+
+    //FreeString has no meaningful tests...
+
+
+
+    /**
+     * Next, let's test that loading a config file with an invalid long option throws.
+     */
+    @Test 
+    @Order(6)
+    void testLong() {
+        //Longs need a fair few too. Let's start with an invalid type
+        testLoadError("long/type.properties", "config.long.test", InvalidTypeException.class, LongValue.class);
+        //And now they need to worry about range. We'll test both high and low
+        testLoadError("long/range_low.properties", "config.long.test", OutOfRangeException.class, LongValue.class);
+        testLoadError("long/range_high.properties", "config.long.test", OutOfRangeException.class, LongValue.class);
     }
 
 
