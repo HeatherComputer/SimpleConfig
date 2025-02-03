@@ -194,8 +194,20 @@ public abstract class GenericManagerTests {
     @Test 
     @Order(7)
     void testStringArray() {
-        //Longs need a fair few too. Let's start with an invalid type
+        //Invalid type is all we need atm.
         testLoadError("stringarray/type.properties", "config.stringarray.test", InvalidTypeException.class, StringArrayValue.class);
+    }
+
+
+
+    /**
+     * And now ValidatedStrings!
+     */
+    @Test 
+    @Order(8)
+    void testValidatedString() {
+        //Out of range is all we need atm.
+        testLoadError("validatedstring/range.properties", "config.validatedstring.test", OutOfRangeException.class, ValidatedStringValue.class);
     }
 
 
