@@ -7,7 +7,7 @@ package computer.heather.simpleconfig.exceptions.validation;
 public class MissingValueException extends BaseValidationException {
 
     /**
-     * @param key
+     * @param key the key that was missing from the config file.
      */
     public MissingValueException(String key) {
         super("Config is missing entry for key [" + key + "]!");

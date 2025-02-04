@@ -9,7 +9,7 @@ import computer.heather.simpleconfig.types.FakeConfigType;
 public class MissingOptionException extends BaseValidationException {
 
     /**
-     * @param key
+     * @param key the key that existed in the config file but wasn't registered.
      */
     public MissingOptionException(String key) {
         super("No registered config option for key [" + key + "]!");

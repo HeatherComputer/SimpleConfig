@@ -36,6 +36,10 @@ public interface IConfigManager {
     /**
      * A helper method for {@link #load(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
+     * @return the manager being referred to. Allows for chaining.
+     * @throws FileNotFoundException if the file doesn't exist to load from.
+     * @throws BaseValidationException if a config option failed to verify when loading.
+     * @throws IOException for any other IO related errors.
      */
     public default IConfigManager load() throws IOException, FileNotFoundException, BaseValidationException {
         return load((configType, value, exception) -> {throw exception;});
@@ -50,15 +54,16 @@ public interface IConfigManager {
      *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers. <br>
      *     Managers SHOULD save if the error handler is invoked and doesn't throw, and SHOULDN'T save if the error handler wasn't invoked or throws.
+     * @return the manager being referred to. Allows for chaining.
      * @throws FileNotFoundException if the file doesn't exist to load from.
      * @throws BaseValidationException if a config option failed to verify when loading.
-     * @throws IOException 
+     * @throws IOException for any other IO related errors.
      */
     public IConfigManager load(ValidationErrorHandler<BaseConfigType<?>, String, BaseValidationException> errorHandler) throws IOException, FileNotFoundException, BaseValidationException;
 
     /**
      * Save the config.
-     * @return 
+     * @return the manager being referred to. Allows for chaining.
      * @throws IOException if for some reason the file can't be written to disk.
      */
     public IConfigManager save() throws IOException;
@@ -66,6 +71,8 @@ public interface IConfigManager {
     /**
      * A helper method for {@link #loadOrCreate(ValidationErrorHandler)}, so you don't need to provide an empty {@link ValidationErrorHandler} manually. <br>
      * See its description for more info.
+     * @return the manager being referred to. Allows for chaining.
+     * @throws IOException if for some reason the file can't be written to disk.
      */
     public default IConfigManager loadOrCreate() throws IOException, BaseValidationException {
         return loadOrCreate((configType, value, exception) -> {throw exception;});
@@ -79,6 +86,7 @@ public interface IConfigManager {
      *     The provided string is the config value that failed to load. <br>
      *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers.
+     * @return the manager being referred to. Allows for chaining.
      * @throws AccessDeniedException if for some reason the file can't be written to disk.
      * @throws BaseValidationException if a config option failed to verify when loading.
      */
