@@ -73,6 +73,7 @@ public interface IConfigManager {
      * See its description for more info.
      * @return the manager being referred to. Allows for chaining.
      * @throws IOException if for some reason the file can't be written to disk.
+     * @throws BaseValidationException if a config option failed to verify when loading.
      */
     public default IConfigManager loadOrCreate() throws IOException, BaseValidationException {
         return loadOrCreate((configType, value, exception) -> {throw exception;});
