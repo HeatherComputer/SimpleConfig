@@ -8,6 +8,8 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    // For publishing.
+    id 'maven-publish'
 }
 
 repositories {
@@ -20,9 +22,6 @@ dependencies {
     testImplementation libs.junit.jupiter
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // This dependency is used by the application.
-    implementation libs.guava
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -41,3 +40,23 @@ tasks.named('test') {
 
 //For now we'll mark the version as 0.1. Once tests are fully finished and we're ready to publish a release, we'll version bump.
 version = 0.1
+//Us
+group 'computer.heather'
+
+publishing {
+  repositories {
+    maven {
+      name = "reposilite"
+      url = "https://maven.heather.computer/public"
+      credentials(PasswordCredentials)
+      authentication {
+        basic(BasicAuthentication)
+      }
+    }
+  }
+  publications {
+    maven(MavenPublication) {
+      from components.java
+    }
+  }
+}
