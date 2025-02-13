@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -214,11 +215,24 @@ public abstract class GenericManagerTests {
 
 
     /**
+     * Test a fresh creation!
+     */
+    @Test 
+    @Order(9)
+    void testFreshCreation() {
+        assertDoesNotThrow(() -> testManager.save());
+        File file = tempDir.resolve("test.properties").toFile();
+        assertTrue(file::exists);
+    }
+
+
+
+    /**
      * And finally we test a full load.
      * This contains valid changes to every single file.
      */
     @Test 
-    @Order(9)
+    @Order(10)
     void testFullLoad() {
         //Generate the file.
         assertDoesNotThrow(() -> writeFileForTest("test-edit.properties"));
