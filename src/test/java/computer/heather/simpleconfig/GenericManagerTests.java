@@ -212,6 +212,40 @@ public abstract class GenericManagerTests {
     }
 
 
+
+    /**
+     * And finally we test a full load.
+     * This contains valid changes to every single file.
+     */
+    @Test 
+    @Order(9)
+    void testFullLoad() {
+        //Generate the file.
+        assertDoesNotThrow(() -> writeFileForTest("test-edit.properties"));
+
+        //Assert the default value of each entry matches.
+        assertEquals(testBooleanValue.get(), false);
+        assertEquals(testFloatValue.get(), 0F);
+        assertEquals(testFreeStringValue.get(), "Hello World!");
+        assertEquals(testLongValue.get(), 0L);
+        //String.join here two make sure the actual values match, even when the object pointers are different..
+        assertEquals(String.join("", testStringArrayValue.get()), String.join("", new String[]{"one", "two", "three"}));
+        assertEquals(testValidatedStringValue.get(), "one");
+
+        //Now, load.
+        assertDoesNotThrow(() -> testManager.load());
+
+        //Assert the new value of each enmtry matches.
+        assertEquals(testBooleanValue.get(), true);
+        assertEquals(testFloatValue.get(), 0.5F);
+        assertEquals(testFreeStringValue.get(), "Goodbye World!");
+        assertEquals(testLongValue.get(), 1L);
+        //String.join here two make sure the actual values match, even when the object pointers are different..
+        assertEquals(String.join("", testStringArrayValue.get()), String.join("", new String[]{"three", "two", "one"}));
+        assertEquals(testValidatedStringValue.get(), "two");
+    }
+
+
     
     /**
      * Helper method to test load errors better.
