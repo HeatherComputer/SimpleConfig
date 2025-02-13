@@ -38,8 +38,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//For now we'll mark the version as 0.1. Once tests are fully finished and we're ready to publish a release, we'll version bump.
-version = 0.1
+//Version 1.0! This contains a fully functional and tested PremadePropertiesManager, in theory.
+//A dynamic one may come in future?
+version = 1.0
 //Us
 group 'computer.heather'
 
