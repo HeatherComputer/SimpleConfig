@@ -21,7 +21,7 @@ public class LongValue extends BaseConfigType<Long> {
         this.value = defaultValue;
         this.min = min;
         this.max = max;
-        this.range = min + "-" + max;  
+        this.range = min + " - " + max;  
     }
 
     @Override

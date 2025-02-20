@@ -21,7 +21,7 @@ public class FloatValue extends BaseConfigType<Float> {
         this.value = defaultValue;
         this.min = min;
         this.max = max;
-        this.range = min + "-" + max;  
+        this.range = min + " - " + max;  
     }
 
     @Override
