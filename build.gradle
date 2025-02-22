@@ -38,9 +38,8 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//Version 1.0! This contains a fully functional and tested PremadePropertiesManager, in theory.
-//A dynamic one may come in future?
-version = 1.0
+//Version 1.1 is just a little version bump to adjust the api spec very mildly.
+version = 1.1
 //Us
 group 'computer.heather'
 
