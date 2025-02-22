@@ -118,7 +118,8 @@ public class PremadePropertiesManager implements IConfigManager {
 
         //Finally, end things off with a save if the errorhandler was invoked at all.
         //This ensures anything it did gets saved.
-        if (!erroringKeys.isEmpty()) save();
+        //REMOVED : MANAGERS SHOULDN'T EVER SAVE IN THEIR LOAD METHOD!
+        //if (!erroringKeys.isEmpty()) save();
 
         return this;
 

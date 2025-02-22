@@ -53,7 +53,7 @@ public interface IConfigManager {
      *     The provided string is the config value that failed to load. <br>
      *     Your error handler should handle the {@link BaseConfigType} being {@link FakeConfigType}! This is to allow for "migration" code: <br>
      *      managers are allowed to detect config entries that aren't registered options and pass them to error handlers. <br>
-     *     Managers SHOULD save if the error handler is invoked and doesn't throw, and SHOULDN'T save if the error handler wasn't invoked or throws.
+     *     Managers should NOT save during their load method, ever! Leave this to the user. For example, a user may want to keep foreign config entries!
      * @return the manager being referred to. Allows for chaining.
      * @throws FileNotFoundException if the file doesn't exist to load from.
      * @throws BaseValidationException if a config option failed to verify when loading.
